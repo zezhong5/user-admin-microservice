@@ -1,6 +1,8 @@
-# user-admin-microservice
+# 6156-User-Microservice
 
-Path:
+## Paths
+
+```
 
 /auth/login  methods=['POST']
 
@@ -9,3 +11,5 @@ Path:
 
 
 /auth/signup methods=['POST']
+
+```
