@@ -1,5 +1,5 @@
 import os
-
+from flask_cors import CORS
 from flask import Flask, request, redirect, Blueprint
 from flask_sqlalchemy import SQLAlchemy
 import os
@@ -43,6 +43,7 @@ def create_app():
 
 if __name__ == '__main__':
     app = create_app()
+    CORS(app)
     app.run(debug=True)
 
 
