@@ -52,7 +52,7 @@ def create_tables():
 
 if __name__ == '__main__':
     db.init_app(app)
-    app.run(debug=True, port=5011)
+    app.run(host="0.0.0.0", debug=True, port=5011)
 
 
 
