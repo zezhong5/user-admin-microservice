@@ -9,7 +9,7 @@
 <div class="card" >
 
 <article class="card-body">
-	<a href="/signup" class="float-right btn btn-outline-success">Sign up</a>
+	<a href="/auth/signup" class="float-right btn btn-outline-success">Sign up</a>
 	<h4 class="card-title mb-4 mt-1 text-center">Sign in</h4>
 	<p>
 
@@ -29,7 +29,7 @@
       {% endif %}
   {% endwith %}
 
-    <form method="POST" action="/login">
+    <form method="POST" action="/auth/login">
       <div class="form-group">
         <input name="email" class="form-control" placeholder="user@user.com" type="email" autofocus="">
       </div> 

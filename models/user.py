@@ -6,7 +6,7 @@ import jwt
 from time import time
 import os
 
-from app import app
+
 
 
 class User(UserMixin, db.Model):
@@ -36,17 +36,28 @@ class User(UserMixin, db.Model):
     def get_reset_token(self, expires = 500):
         return jwt.encode(
             {'reset_password':self.username, 'exp': time()+expires},
-            app.secret_key,
+            'zezhong',
             algorithm='HS256'
         )
 
     @staticmethod
     def verify_reset_token(token):
         try:
-            username = jwt.decode(token,app.secret_key,algorithm='HS256')['reset_password']
+            username = jwt.decode(token,'zezhong',algorithm='HS256')['reset_password']
         except:
             return
         return User.query.filter_by(username = username).first()
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+
+
+        }
 
 
 
