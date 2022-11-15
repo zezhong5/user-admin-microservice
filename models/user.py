@@ -1,7 +1,6 @@
-from flask import current_app
-from flask_login import AnonymousUserMixin, UserMixin
+from flask_login import UserMixin
 from werkzeug.security import check_password_hash, generate_password_hash
-from app import db
+from db import db
 import jwt
 from time import time
 import os
