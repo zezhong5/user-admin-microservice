@@ -4,13 +4,14 @@ from db import db
 import jwt
 from time import time
 import os
+import uuid
 
 
 
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer,primary_key = True)
+    id = db.Column(db.String(128),primary_key = True, default=uuid.uuid4)
     first_name = db.Column(db.String(64), index=True)
     last_name = db.Column(db.String(64), index=True)
     email = db.Column(db.String(64), unique=True, index=True)
