@@ -24,6 +24,8 @@ def authenticate():
 def user_login():
   email = request.form.get('email')
   password = request.form.get('password')
+  print(email)
+  print(password)
   user = User.query.filter_by(email=email).first()
   if not user or not user.verify_password(password):
       flash('Please check your login details and try again.', 'danger')
