@@ -32,8 +32,9 @@ def user_login():
         flash('Please check your login details and try again.', 'danger')
         return {'errors': 'Please check your login details and try again.'}, 401
     rsp = {}
-
-    return {"message": "Successfully logged in"}, 200
+    rsp["user"] = {"email" : user.email, "user_id": user.id}
+    rsp["user"] = user.to_dict()
+    return rsp, 200
 
 
 @auth.route('/signup')
