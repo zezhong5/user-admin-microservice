@@ -22,17 +22,18 @@ def authenticate():
 
 @auth.route('/login', methods=['POST'])
 def user_login():
-  email = request.form.get('email')
-  password = request.form.get('password')
-  print(email)
-  print(password)
-  print(request.data)
-  user = User.query.filter_by(email=email).first()
-  if not user or not user.verify_password(password):
-      flash('Please check your login details and try again.', 'danger')
-      return {'errors': 'Please check your login details and try again.'}, 401
+    email = request.form.get('email')
+    password = request.form.get('password')
+    print(email)
+    print(password)
+    print(request.data)
+    user = User.query.filter_by(email=email).first()
+    if not user or not user.verify_password(password):
+        flash('Please check your login details and try again.', 'danger')
+        return {'errors': 'Please check your login details and try again.'}, 401
+    rsp = {}
 
-  return {"message": "Successfully logged in"}, 200
+    return {"message": "Successfully logged in"}, 200
 
 
 @auth.route('/signup')
@@ -57,10 +58,10 @@ def signup_post():
     return {"message": "User successfully signed up"}, 200
 
 @auth.route('/logout')
-@login_required
+# @login_required
 def logout():
-  logout_user()
-  return {'message': 'User logged out'}
+#   logout_user()
+  return {'message': 'User logged out'}, 200
 
 @auth.route("/dummy")
 def dummy():
