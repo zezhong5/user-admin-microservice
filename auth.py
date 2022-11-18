@@ -64,6 +64,7 @@ def logout():
 #   logout_user()
   return {'message': 'User logged out'}, 200
 
+
 @auth.route("/dummy")
 def dummy():
     return {"message": "success"}

@@ -9,6 +9,7 @@ from db import db
 
 from models.user import User
 from auth import auth as auth_blueprint
+from aws_lambda import lam as lam_blueprint
 
 app = Flask(__name__)
 CORS(app)
@@ -43,6 +44,7 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 app.register_blueprint(auth_blueprint, url_prefix='/auth')
+app.register_blueprint(lam_blueprint, url_prefix='/lam')
 
 
 @app.before_first_request
