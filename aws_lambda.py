@@ -9,7 +9,7 @@ lam = Blueprint('lam', __name__)
 
 @lam.route('/trigger')
 def trigger_lambda():
-    payload = json.dumps({"username": "Wu", "email": "wuw1998@gmail.com", "link": "this is a link"})
+    payload = json.dumps({"username": "Wu", "email": "zfan2274@gmail.com", "link": "this is a link"})
     lambda_client = boto3.client('lambda')
     response = lambda_client.invoke(FunctionName='test-function',
                         InvocationType='RequestResponse',

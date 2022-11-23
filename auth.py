@@ -4,6 +4,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from db import db
 auth = Blueprint('auth', __name__)
 import uuid
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt
 
 @auth.route('/login')
 def login():
@@ -22,8 +23,9 @@ def authenticate():
 
 @auth.route('/login', methods=['POST'])
 def user_login():
-    email = request.form.get('email')
-    password = request.form.get('password')
+    data = request.get_json()
+    email = data['email']
+    password = data['password']
     print(email)
     print(password)
     print(request.data)
@@ -31,9 +33,10 @@ def user_login():
     if not user or not user.verify_password(password):
         flash('Please check your login details and try again.', 'danger')
         return {'errors': 'Please check your login details and try again.'}, 401
+    token = create_access_token(identity=user.id)
     rsp = {}
-    rsp["user"] = {"email" : user.email, "user_id": user.id}
     rsp["user"] = user.to_dict()
+    rsp["access_token"] = token
     return rsp, 200
 
 
@@ -43,11 +46,12 @@ def signup():
 
 @auth.route('/signup', methods=['POST'])
 def signup_post():
-    username = request.form.get('username')
-    email = request.form.get('email')
-    password = request.form.get('password')
-    first_name = request.form.get('first_name')
-    last_name = request.form.get('last_name')
+    data = request.get_json()
+    username = data['username']
+    email = data['email']
+    password = data['password']
+    first_name = data['first_name']
+    last_name = data['last_name']
     user = User.query.filter_by(email=email).first()
     if user:
         return {"message": "Email has already been used."}, 401
@@ -58,16 +62,11 @@ def signup_post():
     db.session.commit()
     return {"message": "User successfully signed up"}, 200
 
-@auth.route('/logout')
-# @login_required
+@auth.route('/logout', methods=['POST'])
+@jwt_required()
 def logout():
-#   logout_user()
-  return {'message': 'User logged out'}, 200
-
-
-@auth.route("/dummy")
-def dummy():
-    return {"message": "success"}
+    user = get_jwt()['sub']
+    return {'message': 'User {} logged out'.format(user)}, 200
 
 
 

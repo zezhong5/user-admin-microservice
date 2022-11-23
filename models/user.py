@@ -19,16 +19,28 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(150))
     confirmed = db.Column(db.Boolean, default=False)
 
+    def __init__(self, username, password, email, first_name, last_name, id, confirmed=False):
+        self.username =username
+        self.email = email
+        self.first_name = first_name
+        self.last_name = last_name
+        self.id = id
+        self.confirmed = confirmed
+
+        if password:
+            self.password_hash = generate_password_hash(password)
+
     def full_name(self):
         return '%s %s' % (self.first_name, self.last_name)
 
     @property
     def password(self):
         raise AttributeError('passward is not readable')
+    
 
-    @password.setter
-    def password(self,password):
-        self.password_hash =generate_password_hash(password)
+    def confirm(self):
+        self.confirmed = True
+        db.session.commit()
 
     def verify_password(self,passward):
         return check_password_hash(self.password_hash,passward)
@@ -39,6 +51,10 @@ class User(UserMixin, db.Model):
             'zezhong',
             algorithm='HS256'
         )
+    
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
 
     @staticmethod
     def verify_reset_token(token):
@@ -47,6 +63,10 @@ class User(UserMixin, db.Model):
         except:
             return
         return User.query.filter_by(username = username).first()
+    
+    @classmethod
+    def find_by_email(cls, email):
+        return cls.query.filter_by(email=email).first()
 
     def to_dict(self):
         return {
