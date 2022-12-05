@@ -16,7 +16,6 @@ bp = Blueprint('oauth', __name__)
 @bp.route('/login/github')
 def github_login():
     print(url_for("oauth.github_authorize"))
-    print(jsonify(oauth.github.authorize_redirect(url_for("oauth.github_authorize",  _external=True))))
     return oauth.github.authorize_redirect(url_for("oauth.github_authorize",  _external=True))
 
 @bp.route('/login/github/authorized')
