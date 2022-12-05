@@ -23,7 +23,7 @@ def authenticate():
 
 @auth.route('/login', methods=['POST'])
 def user_login():
-    data = request.get_json()
+    data = request.form
     email = data['email']
     password = data['password']
     print(email)
@@ -46,7 +46,7 @@ def signup():
 
 @auth.route('/signup', methods=['POST'])
 def signup_post():
-    data = request.get_json()
+    data = request.form
     username = data['username']
     email = data['email']
     password = data['password']
@@ -62,7 +62,7 @@ def signup_post():
     db.session.commit()
     return {"message": "User successfully signed up"}, 200
 
-@auth.route('/logout', methods=['POST'])
+@auth.route('/logout', methods=['GET'])
 @jwt_required()
 def logout():
     user = get_jwt()['sub']

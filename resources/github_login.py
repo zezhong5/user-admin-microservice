@@ -16,10 +16,12 @@ bp = Blueprint('oauth', __name__)
 @bp.route('/login/github')
 def github_login():
     print(url_for("oauth.github_authorize"))
+    print(jsonify(oauth.github.authorize_redirect(url_for("oauth.github_authorize",  _external=True))))
     return oauth.github.authorize_redirect(url_for("oauth.github_authorize",  _external=True))
 
 @bp.route('/login/github/authorized')
 def github_authorize():
+    print("here")
     token = oauth.github.authorize_access_token()
     if token is None:
         error_response = {
@@ -47,5 +49,6 @@ def github_authorize():
     
 
     access_token = create_access_token(identity=user.id, fresh=True)
-    return {"access_token": access_token, "email": primary_email}, 200
+
+    return {"access_token": access_token, "email": primary_email, "user": user.to_dict()}, 200
 
