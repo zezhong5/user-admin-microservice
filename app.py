@@ -10,7 +10,7 @@ from oa import oauth
 from models.user import User
 from auth import auth as auth_blueprint
 from aws_lambda import lam as lam_blueprint
-from resources.github_login import bp as oauth_blueprint
+from resources.oauth_login import bp as oauth_blueprint
 
 app = Flask(__name__)
 CORS(app)

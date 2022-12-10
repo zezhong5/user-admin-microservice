@@ -27,3 +27,11 @@ github = oauth.register(
     api_base_url="https://api.github.com/",
     client_kwargs={"scope": "user:email"},
 )
+
+google = oauth.register(
+    name="google",
+    client_id='463096542559-f5hhgrnv1brbg00l4i6g5u47gjj2uo8a.apps.googleusercontent.com',
+    client_secret='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',
+    server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+    client_kwargs={"scope": "openid profile email"},
+)
