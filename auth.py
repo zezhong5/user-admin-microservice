@@ -27,9 +27,6 @@ def user_login():
     data = request.form
     email = data['email']
     password = data['password']
-    print(email)
-    print(password)
-    print(request.data)
     user = User.query.filter_by(email=email).first()
     if not user or not user.verify_password(password):
         flash('Please check your login details and try again.', 'danger')
@@ -66,16 +63,13 @@ def signup_post():
     username = data['username']
     email = data['email']
     password = data['password']
-    first_name = data['first_name']
-    last_name = data['last_name']
     user = User.query.filter_by(email=email).first()
     if user:
         return {"message": "Email has already been used."}, 401
 
     registered_id = uuid.uuid4()
     new_user = User(username = username, email = email,
-                    password = password, first_name = first_name,
-                    last_name = last_name,id = registered_id)
+                    password = password, id = registered_id)
     db.session.add(new_user)
     db.session.commit()
 
@@ -94,6 +88,15 @@ def logout():
     return {'message': 'User {} logged out'.format(user)}, 200
 
 
+@auth.route('/userinfo')
+@jwt_required()
+def get_userinfo():
+    user_id = get_jwt()['sub']
+    user = User.find_by_id(user_id)
+    if not user:
+        return {'msg': 'Cannot get user info from database'}, 401
+
+    return user.to_dict(), 200
 
 
 

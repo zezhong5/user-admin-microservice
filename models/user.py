@@ -12,18 +12,14 @@ import uuid
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.String(128),primary_key = True, default=uuid.uuid4)
-    first_name = db.Column(db.String(64), index=True)
-    last_name = db.Column(db.String(64), index=True)
     email = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))
     username = db.Column(db.String(150))
     confirmed = db.Column(db.Boolean, default=False)
 
-    def __init__(self, username, password, email, first_name, last_name, id, confirmed=False):
+    def __init__(self, username, password, email, id, confirmed=False):
         self.username =username
         self.email = email
-        self.first_name = first_name
-        self.last_name = last_name
         self.id = id
         self.confirmed = confirmed
 
@@ -77,10 +73,7 @@ class User(UserMixin, db.Model):
             'id': self.id,
             'username': self.username,
             'email': self.email,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
-
-
+            'confirmed': self.confirmed
         }
 
 

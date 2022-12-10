@@ -12,7 +12,6 @@ from db import db
 from flask_cors import CORS
 
 bp = Blueprint('oauth', __name__)
-CORS(bp)
 
 
 @bp.route('/login/github')
@@ -44,7 +43,7 @@ def github_authorize():
     
     user = User.find_by_email(primary_email)
     if not user:
-        user = User(username=primary_email, email=primary_email, password=None, first_name=None, last_name=None, id=uuid.uuid4(), confirmed=True)
+        user = User(username=primary_email, email=primary_email, password=None, id=uuid.uuid4(), confirmed=True)
         user.save_to_db()
     elif not user.confirmed:
         user.confirmed = True
@@ -72,9 +71,7 @@ def google_authorize():
         return {"message": "Cannot get email information from Google"}, 401
     user = User.find_by_email(email)
     if not user:
-        first_name = userInfo['given_name']
-        last_name = userInfo['family_name']
-        user = User(username=email, email=email, password=None, first_name=first_name, last_name=last_name, id=uuid.uuid4(), confirmed=True)
+        user = User(username=email, email=email, password=None, id=uuid.uuid4(), confirmed=True)
         user.save_to_db()
     elif not user.confirmed:
         user.confirmed = True
