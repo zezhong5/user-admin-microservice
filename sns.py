@@ -13,7 +13,7 @@ topicArns = {
 class SnsWrapper:
 
     @staticmethod
-    def PublishRegConfirmTopic(link):
+    def PublishRegConfirmTopic(link, destination):
         topicArn=topicArns['RegConfirmTopic']
         try:
             snsClient = boto3.client(
@@ -22,9 +22,14 @@ class SnsWrapper:
                 aws_secret_access_key=os.environ.get('GOOGLE_SNS_API_SECRET'),
                 region_name='us-east-2'
             )
+            message_json = {
+                "link": link,
+                "destination": destination
+            }
+            message_string = json.dumps(message_json)
             response=snsClient.publish(
                 TopicArn=topicArn,
-                Message=link
+                Message=message_string
             )
             message_id = response['MessageId']
             logger.info(

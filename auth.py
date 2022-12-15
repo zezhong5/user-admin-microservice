@@ -75,7 +75,7 @@ def signup_post():
 
     # publish to SNS topic for email confirmation
     confirmation_link = generate_confirmation_link(username, registered_id)
-    SnsWrapper.PublishRegConfirmTopic(confirmation_link)
+    SnsWrapper.PublishRegConfirmTopic(confirmation_link, email)
 
     # TODO: add step for checking CONFIRMED field when logging in 
 
