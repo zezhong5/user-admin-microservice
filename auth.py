@@ -30,7 +30,9 @@ def user_login():
     user = User.query.filter_by(email=email).first()
     if not user or not user.verify_password(password):
         flash('Please check your login details and try again.', 'danger')
-        return {'errors': 'Please check your login details and try again.'}, 401
+        return {'msg': 'Please check your login details and try again.'}, 401
+    if not user.confirmed:
+        return {'msg': 'please verify your email...'}, 401
     token = create_access_token(identity=user.id)
     rsp = {}
     rsp["user"] = user.to_dict()
