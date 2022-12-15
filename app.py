@@ -11,6 +11,9 @@ from models.user import User
 from auth import auth as auth_blueprint
 from aws_lambda import lam as lam_blueprint
 from resources.oauth_login import bp as oauth_blueprint
+from dotenv import load_dotenv
+
+load_dotenv(".env")
 
 app = Flask(__name__)
 CORS(app)

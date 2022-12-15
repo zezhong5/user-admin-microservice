@@ -2,6 +2,7 @@ import logging
 import boto3
 import json
 from botocore.exceptions import ClientError
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -17,8 +18,8 @@ class SnsWrapper:
         try:
             snsClient = boto3.client(
                 'sns',
-                aws_access_key_id='AKIASFIILGZ3O7F7NTW3',
-                aws_secret_access_key='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',
+                aws_access_key_id=os.environ.get('GOOGLE_SNS_API_KEY'),
+                aws_secret_access_key=os.environ.get('GOOGLE_SNS_API_SECRET'),
                 region_name='us-east-2'
             )
             response=snsClient.publish(

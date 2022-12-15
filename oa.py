@@ -18,8 +18,8 @@ oauth = OAuth()
 
 github = oauth.register(
     'github',
-    client_id='f25dca2b0c796fce17c3',
-    client_secret='7b5f22c82219d8e79bddb883afacc147fb420af8',
+    client_id='',
+    client_secret='',
     access_token_url="https://github.com/login/oauth/access_token",
     access_token_params=None,
     authorize_url="https://github.com/login/oauth/authorize",
@@ -30,8 +30,8 @@ github = oauth.register(
 
 google = oauth.register(
     name="google",
-    client_id='463096542559-f5hhgrnv1brbg00l4i6g5u47gjj2uo8a.apps.googleusercontent.com',
-    client_secret='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',
+    client_id=os.environ.get('GOOGLE_OAUTH_API_KEY'),
+    client_secret=os.environ.get('GOOGLE_OAUTH_API_SECRET'),
     server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
     client_kwargs={"scope": "openid profile email"},
 )
