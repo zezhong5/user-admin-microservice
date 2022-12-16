@@ -32,7 +32,9 @@ def user_login():
         flash('Please check your login details and try again.', 'danger')
         return {'msg': 'Please check your login details and try again.'}, 401
     if not user.confirmed:
+        print(user.confirmed)
         return {'msg': 'please verify your email...'}, 401
+
     token = create_access_token(identity=user.id)
     rsp = {}
     rsp["user"] = user.to_dict()
